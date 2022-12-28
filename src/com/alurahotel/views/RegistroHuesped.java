@@ -262,7 +262,9 @@ public class RegistroHuesped extends JFrame {
 				}else {
 					int valor = huespedesController.guardarHuesped(txtNombre.getText(), txtApellido.getText(), txtFechaN.getDate(), txtNacionalidad.getSelectedItem().toString(), txtTelefono.getText(), txtNreserva.getText());
 					if(valor != 0){
-						JOptionPane.showMessageDialog(null, "Huesped guardado correctamente");
+						Exito exito = new Exito();
+						exito.setVisible(true);
+						dispose();
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Error al guardar huesped");

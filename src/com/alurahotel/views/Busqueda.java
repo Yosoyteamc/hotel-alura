@@ -5,6 +5,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.alurahotel.controllers.HuespedesController;
+import com.alurahotel.controllers.ReservasController;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -37,6 +41,8 @@ public class Busqueda extends JFrame {
 	private JLabel labelAtras;
 	private JLabel labelExit;
 	int xMouse, yMouse;
+	private ReservasController reservasController = new ReservasController();
+	private HuespedesController huespedesController = new HuespedesController();
 
 	/**
 	 * Launch the application.
@@ -102,6 +108,7 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Valor");
 		modelo.addColumn("Forma de Pago");
 		
+		cargarReservas();
 		
 		tbHuespedes = new JTable();
 		tbHuespedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -115,6 +122,8 @@ public class Busqueda extends JFrame {
 		modeloH.addColumn("Nacionalidad");
 		modeloH.addColumn("Telefono");
 		modeloH.addColumn("Numero de Reserva");
+
+		cargarHuespedes();
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
@@ -268,4 +277,21 @@ public class Busqueda extends JFrame {
 	        int y = evt.getYOnScreen();
 	        this.setLocation(x - xMouse, y - yMouse);
 }
+
+	private void cargarReservas(){
+		var reservas = reservasController.obtenerReservas();
+		reservas.forEach(reserva -> {
+			modelo.addRow(new Object[] {reserva.getId(), reserva.getFechaEntrada(), reserva.getFechaSalida(), 
+					reserva.getValor(), reserva.getFormaPago()});
+		});
+	}
+
+	private void cargarHuespedes(){
+		var huespedes = huespedesController.obtenerHuespedes();
+		huespedes.forEach(huesped ->{
+			modeloH.addRow(new Object[] {huesped.getId(), huesped.getNombre(),huesped.getApellido(),
+					huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(), huesped.getReserva()});
+		});
+	}
+
 }

@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.alurahotel.factory.ConnectionFactory;
 import com.alurahotel.models.Huesped;
+import com.alurahotel.models.Reserva;
 
 public class HuespedesDAO {
     
@@ -46,4 +49,33 @@ public class HuespedesDAO {
         }
         return huespedID;
     }
+
+	public List<Huesped> obtenerHuespedes() {
+		List<Huesped> huespedes = new ArrayList<>();
+		final Connection con = new ConnectionFactory().getConnection();
+        try(con){
+            final PreparedStatement statement = con.prepareStatement(
+                "SELECT * FROM huespedes");
+            try(statement){
+                statement.execute();
+                final ResultSet resultSet = statement.getResultSet();
+                while(resultSet.next()){
+                	Huesped fila = new Huesped(
+                			resultSet.getInt("id"),
+                			resultSet.getString("nombre"),
+                			resultSet.getString("apellido"),
+                			resultSet.getString("fecha_nacimiento"),
+                			resultSet.getString("nacionalidad"),
+                			resultSet.getString("telefono"),
+                			resultSet.getInt("reserva_id")
+                	);
+                    huespedes.add(fila);
+                }
+                return huespedes;
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+	}
 }

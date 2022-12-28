@@ -323,6 +323,7 @@ public class ReservasView extends JFrame {
 							RegistroHuesped registro = new RegistroHuesped();
 							registro.actualizarReserva(valor);
 							registro.setVisible(true);
+							dispose();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Error al guardar la reserva.");

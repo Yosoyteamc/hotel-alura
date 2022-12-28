@@ -2,6 +2,7 @@ package com.alurahotel.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.alurahotel.dao.ReservasDAO;
 import com.alurahotel.factory.ConnectionFactory;
@@ -28,6 +29,10 @@ public class ReservasController {
 
         var reserva = new Reserva(formatedEntrada, formatedSalida, valor, formaPago);
         return reservasDAO.guardar(reserva);
+    }
+
+    public List<Reserva> obtenerReservas() {
+        return reservasDAO.obtenerReservas();
     }
 }
 

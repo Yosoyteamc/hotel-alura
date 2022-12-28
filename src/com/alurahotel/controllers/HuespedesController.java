@@ -2,6 +2,7 @@ package com.alurahotel.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.alurahotel.dao.HuespedesDAO;
 import com.alurahotel.factory.ConnectionFactory;
@@ -23,4 +24,8 @@ public class HuespedesController {
         Huesped huesped = new Huesped(nombre, apellido, formatednacimiento, nacionalidad, telefono, nReserva);
         return huespedesDAO.guardar(huesped);
     }
+
+	public List<Huesped> obtenerHuespedes() {
+		return huespedesDAO.obtenerHuespedes();
+	}
 }
