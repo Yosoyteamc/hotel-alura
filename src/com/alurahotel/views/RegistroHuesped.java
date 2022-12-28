@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Color;
+
+import com.alurahotel.controllers.HuespedesController;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -38,6 +40,7 @@ public class RegistroHuesped extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
+	private HuespedesController huespedesController = new HuespedesController();
 
 	/**
 	 * Launch the application.
@@ -254,6 +257,17 @@ public class RegistroHuesped extends JFrame {
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(txtNombre.getText().equals("") || txtApellido.getText().equals("") || txtFechaN.getDate().equals(null) || txtTelefono.getText().equals("") ) {
+					JOptionPane.showMessageDialog(null, "Debe completar todos los campos");
+				}else {
+					int valor = huespedesController.guardarHuesped(txtNombre.getText(), txtApellido.getText(), txtFechaN.getDate(), txtNacionalidad.getSelectedItem().toString(), txtTelefono.getText(), txtNreserva.getText());
+					if(valor != 0){
+						JOptionPane.showMessageDialog(null, "Huesped guardado correctamente");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Error al guardar huesped");
+					}
+				}
 			}
 		});
 		btnguardar.setLayout(null);

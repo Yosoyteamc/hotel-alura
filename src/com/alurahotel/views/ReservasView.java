@@ -318,7 +318,6 @@ public class ReservasView extends JFrame {
 						JOptionPane.showMessageDialog(null, "Debes cambiar la fecha de reserva.");
 					}else {
 						int valor = reservasController.guardarReserva(txtFechaE.getDate(), txtFechaS.getDate(), txtValor.getText(), txtFormaPago.getSelectedItem().toString());
-						System.out.println(valor);
 						if(valor != 0) {
 							//JOptionPane.showMessageDialog(null, "Reserva guardada con exito.");
 							RegistroHuesped registro = new RegistroHuesped();
