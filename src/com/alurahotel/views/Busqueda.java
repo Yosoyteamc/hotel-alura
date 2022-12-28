@@ -16,9 +16,12 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Optional;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
@@ -242,6 +245,17 @@ public class Busqueda extends JFrame {
 		btnEditar.setBounds(635, 508, 122, 35);
 		btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEditar);
+		btnEditar.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// if(tieneFilaHuespedElegida() && tieneFilaReservaElegida()) {
+			// 	JOptionPane.showMessageDialog(null, "Por favor, elije un item");	
+			// 	return;
+			// 	}
+			// 	editarContenido();
+			}
+		});
+
 		
 		JLabel lblEditar = new JLabel("EDITAR");
 		lblEditar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -292,6 +306,29 @@ public class Busqueda extends JFrame {
 			modeloH.addRow(new Object[] {huesped.getId(), huesped.getNombre(),huesped.getApellido(),
 					huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(), huesped.getReserva()});
 		});
+	}
+
+	private boolean tieneFilaHuespedElegida() {
+        return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedColumnCount() == 0;
+    }
+
+	private boolean tieneFilaReservaElegida() {
+		return tbReservas.getSelectedRowCount() == 0 || tbReservas.getSelectedColumnCount() == 0;
+	}
+
+	private void editarContenido() {
+
+        Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+                .ifPresentOrElse(fila -> {
+                    // Integer id = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 0).toString());
+                    // String nombre = (String) modelo.getValueAt(tabla.getSelectedRow(), 1);
+                    // String descripcion = (String) modelo.getValueAt(tabla.getSelectedRow(), 2);
+                    // Integer cantidad = Integer.valueOf(modelo.getValueAt(tabla.getSelectedRow(), 3).toString());
+                    int filasModificadas = 0;
+                    // var producto = new Producto(id,nombre, descripcion, cantidad);
+                    // filasModificadas = this.productoController.modificar(producto);
+                    JOptionPane.showMessageDialog(this, String.format("%d item modificado con éxito!", filasModificadas));
+                }, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 	}
 
 }
