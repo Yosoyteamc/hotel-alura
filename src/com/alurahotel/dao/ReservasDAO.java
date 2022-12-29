@@ -47,7 +47,7 @@ public class ReservasDAO {
         }
     }
 
-    public List<Reserva> obtenerReservas() {
+    public List<Reserva> obtener() {
         List<Reserva> reservas = new ArrayList<>();
         final Connection con = new ConnectionFactory().getConnection();
         try(con){
@@ -67,6 +67,26 @@ public class ReservasDAO {
                     reservas.add(fila);
                 }
                 return reservas;
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int modificar(Reserva reserva) {
+        final Connection con = new ConnectionFactory().getConnection();
+        try(con){
+            final PreparedStatement statement =  con.prepareStatement(
+                "UPDATE reservas SET fecha_entrada = ?, fecha_salida = ?, valor = ?, forma_pago = ? WHERE id = ?");
+            try(statement){
+                statement.setString(1, reserva.getFechaEntrada());
+                statement.setString(2, reserva.getFechaSalida());
+                statement.setString(3, reserva.getValor());
+                statement.setString(4, reserva.getFormaPago());
+                statement.setInt(5, reserva.getId());
+                statement.execute();
+                return statement.getUpdateCount();
             }
         }
         catch (SQLException e) {

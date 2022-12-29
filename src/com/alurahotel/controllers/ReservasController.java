@@ -1,5 +1,6 @@
 package com.alurahotel.controllers;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,24 @@ public class ReservasController {
     }
 
     public List<Reserva> obtenerReservas() {
-        return reservasDAO.obtenerReservas();
+        return reservasDAO.obtener();
+    }
+
+    public int modificarReserva(Reserva reserva) {
+        SimpleDateFormat formated = new SimpleDateFormat("yyyy-MM-dd");
+        Double valorTemp;
+        try {
+            Date entrada = formated.parse(reserva.getFechaEntrada());
+            Date salida = formated.parse(reserva.getFechaSalida());
+            valorTemp = calcularValorTotalReserva(entrada, salida, 50000);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        if(valorTemp > 0.0){
+            reserva.setValor(valorTemp.toString());
+            return reservasDAO.modificar(reserva);
+        }
+        return 0;
     }
 }
 

@@ -78,4 +78,24 @@ public class HuespedesDAO {
             throw new RuntimeException(e);
         }
 	}
+
+    public int modificar(Huesped huesped) {
+        final Connection con = new ConnectionFactory().getConnection();
+        try(con){
+            final PreparedStatement statement = con.prepareStatement(
+                "UPDATE HUESPEDES SET NOMBRE = ?, APELLIDO = ?, FECHA_NACIMIENTO = ?, NACIONALIDAD = ?, TELEFONO = ?, RESERVA_ID = ? WHERE ID = ?");
+            statement.setString(1, huesped.getNombre());
+            statement.setString(2, huesped.getApellido());
+            statement.setString(3, huesped.getFechaNacimiento());
+            statement.setString(4, huesped.getNacionalidad());
+            statement.setString(5, huesped.getTelefono());
+            statement.setInt(6, huesped.getReserva());
+            statement.setInt(7, huesped.getId());
+            statement.execute();
+            return statement.getUpdateCount();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

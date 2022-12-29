@@ -28,4 +28,8 @@ public class HuespedesController {
 	public List<Huesped> obtenerHuespedes() {
 		return huespedesDAO.obtenerHuespedes();
 	}
+
+    public int modificarHuesped(Huesped huesped) {
+        return huespedesDAO.modificar(huesped);
+    }
 }
