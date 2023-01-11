@@ -272,6 +272,18 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBounds(767, 508, 122, 35);
 		btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEliminar);
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(tieneFilaHuespedElegida() && tieneFilaReservaElegida()) {
+					JOptionPane.showMessageDialog(null, "Por favor, elije un item");	
+					return;
+					}
+					// editarContenido(panel.getSelectedIndex());
+					eliminarContenido(panel.getSelectedIndex());
+				}
+			});
+
 		
 		JLabel lblEliminar = new JLabel("ELIMINAR");
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -355,6 +367,30 @@ public class Busqueda extends JFrame {
 				cargarHuespedes();
 			}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 		}
+	}
+
+	private void eliminarContenido(Integer index){
+		if (index == 0){
+			Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+			.ifPresentOrElse(fila -> {
+				Integer id = Integer.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+				int cantidadElminada;
+				cantidadElminada = this.reservasController.eliminarReserva(id);
+				modelo.removeRow(tbReservas.getSelectedRow());
+				JOptionPane.showMessageDialog(this, "Se eliminaron " + cantidadElminada  + "Elementos(s)");
+			}, ()-> JOptionPane.showMessageDialog(this, "Por favor elige un item"));
+		}
+		if (index == 1){
+			Optional.ofNullable(modeloH.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+			.ifPresentOrElse(fila -> {
+				Integer id = Integer.valueOf(modeloH.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+				int cantidadElminada;
+				cantidadElminada = this.huespedesController.eliminarHuesped(id);
+				modeloH.removeRow(tbHuespedes.getSelectedRow());
+				JOptionPane.showMessageDialog(this, "Se eliminaron " + cantidadElminada  + "Elementos(s)");
+			}, ()-> JOptionPane.showMessageDialog(this, "Por favor elige un item"));
+		}
+
 	}
 	
 	private void limpiarTablaReserva() {

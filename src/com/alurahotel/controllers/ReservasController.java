@@ -52,5 +52,9 @@ public class ReservasController {
         }
         return 0;
     }
+
+    public int eliminarReserva(Integer id) {
+        return reservasDAO.eliminar(id);
+    }
 }
 

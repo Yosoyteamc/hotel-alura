@@ -32,4 +32,8 @@ public class HuespedesController {
     public int modificarHuesped(Huesped huesped) {
         return huespedesDAO.modificar(huesped);
     }
+
+    public int eliminarHuesped(Integer id) {
+        return huespedesDAO.eliminar(id);
+    }
 }

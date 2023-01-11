@@ -98,4 +98,24 @@ public class HuespedesDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public int eliminar(Integer id) {
+        final Connection con = new ConnectionFactory().getConnection();
+        try(con) {
+            final PreparedStatement statement = con.prepareStatement("DELETE FROM huespedes WHERE reserva_id = ?");
+            try(statement){
+                statement.setInt(1, id);
+                statement.execute();
+                final PreparedStatement statement2 = con.prepareStatement("DELETE FROM reservas WHERE id = ?");
+                try(statement2){
+                    statement2.setInt(1, id);
+                    statement2.execute();
+                    return statement.getUpdateCount() + statement2.getUpdateCount();
+                }
+            }
+        } catch (Exception e) {
+            // System.out.println("Error al eliminar la reserva" + e.getMessage());
+            throw new RuntimeException();
+        }
+    }
 }
